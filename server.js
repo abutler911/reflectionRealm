@@ -15,6 +15,7 @@ const app = express();
 const port = parseInt(process.env.PORT) || process.argv[3] || 3000;
 
 // Security middleware
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -22,8 +23,7 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", 'cdnjs.cloudflare.com'],
         styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'cdnjs.cloudflare.com'],
-        fontSrc: ["'self'", 'fonts.gstatic.com'],
-        imgSrc: ["'self'", 'data:'],
+        fontSrc: ["'self'", 'fonts.gstatic.com', 'cdnjs.cloudflare.com'],
       },
     },
   })
@@ -37,7 +37,18 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Logging
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+} else {
+  // Use a more concise format in production
+  app.use(
+    morgan('combined', {
+      skip: function (req, res) {
+        return res.statusCode < 400;
+      },
+    })
+  );
+}
 
 // Compression
 app.use(compression());
