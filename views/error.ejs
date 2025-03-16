@@ -1,0 +1,19 @@
+<!-- views/error.ejs -->
+<%- include('./partials/header', {title: 'Error | ReflectionRealm', path: path}) %>
+
+<section class="error-page">
+  <div class="container">
+    <div class="error-content">
+      <h1>Oops!</h1>
+      <h2>Something went wrong</h2>
+      <p><%= error %></p>
+      <div class="error-actions">
+        <a href="/" class="btn primary-btn">
+          <i class="fas fa-home"></i> Back to Homepage
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('./partials/footer') %>

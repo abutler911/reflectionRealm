@@ -1,14 +1,8 @@
-/**
- * Main JavaScript file for the blog
- */
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Theme toggle functionality
     const themeToggle = document.querySelector('.theme-toggle');
     const htmlRoot = document.documentElement;
     const themeIcon = themeToggle.querySelector('i');
     
-    // Check for saved theme
     const savedTheme = localStorage.getItem('theme');
     
     if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -31,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     
@@ -41,38 +34,26 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     
-    // Close mobile menu when clicking outside
     document.addEventListener('click', function(event) {
       if (navLinks && navLinks.classList.contains('active') && !event.target.closest('nav')) {
         navLinks.classList.remove('active');
       }
     });
     
-    // Add animations to post cards
     const postCards = document.querySelectorAll('.post-card');
     
     if (postCards.length > 0) {
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-      
-      const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-      
-      postCards.forEach(card => {
+      postCards.forEach((card, index) => {
         card.style.opacity = "0";
-        appearOnScroll.observe(card);
+        card.style.transform = "translateY(20px)";
+        setTimeout(() => {
+          card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, 100 + index * 120);
       });
     }
     
-    // Highlight syntax for code blocks if Prism.js is available
     if (typeof Prism !== 'undefined') {
       Prism.highlightAll();
     }

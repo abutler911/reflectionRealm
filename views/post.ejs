@@ -13,30 +13,18 @@
     <div class="container">
         <article>
             <div class="content">
-                <%= post.content %>
+                <%- post.content %>
             </div>
             
             <div class="post-footer">
                 <div class="tags">
                     <% if (post.tags && post.tags.length > 0) { %>
                         <% post.tags.forEach(tag => { %>
-                            <a href="/tag/<%= tag %>" class="tag"><%= tag %></a>
+                            <span class="tag"><%= tag %></span> <!-- Change from <a> to <span> -->
                         <% }); %>
                     <% } %>
                 </div>
-                
-                <div class="share">
-                    <span>Share:</span>
-                    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>&text=<%= encodeURIComponent(post.title) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>&title=<%= encodeURIComponent(post.title) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
+
             </div>
         </article>
         
