@@ -1,0 +1,59 @@
+<%- include('./partials/header', {title: post.title, description: post.excerpt, path: '/blog'}) %>
+
+<section class="post-header">
+    <div class="container">
+        <div class="post-meta">
+            <span class="post-date"><i class="far fa-calendar-alt"></i> <%= post.date %></span>
+        </div>
+        <h1 class="post-title"><%= post.title %></h1>
+    </div>
+</section>
+
+<section class="post-content">
+    <div class="container">
+        <article>
+            <div class="content">
+                <%= post.content %>
+            </div>
+            
+            <div class="post-footer">
+                <div class="tags">
+                    <% if (post.tags && post.tags.length > 0) { %>
+                        <% post.tags.forEach(tag => { %>
+                            <a href="/tag/<%= tag %>" class="tag"><%= tag %></a>
+                        <% }); %>
+                    <% } %>
+                </div>
+                
+                <div class="share">
+                    <span>Share:</span>
+                    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>&text=<%= encodeURIComponent(post.title) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent(`https://yourblog.com/blog/${post.slug}`) %>&title=<%= encodeURIComponent(post.title) %>" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </article>
+        
+        <div class="post-navigation">
+            <% if (typeof prevPost !== 'undefined' && prevPost) { %>
+                <a href="/blog/<%= prevPost.slug %>" class="prev-post">
+                    <i class="fas fa-arrow-left"></i> Previous Post
+                </a>
+            <% } %>
+            
+            <% if (typeof nextPost !== 'undefined' && nextPost) { %>
+                <a href="/blog/<%= nextPost.slug %>" class="next-post">
+                    Next Post <i class="fas fa-arrow-right"></i>
+                </a>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<%- include('./partials/footer') %>

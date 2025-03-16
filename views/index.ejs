@@ -1,0 +1,33 @@
+<%- include('./partials/header', {title: 'Reflection Realm', description: 'Thoughts, stories and ideas about the world and life.', path: '/'}) %>
+
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to Reflection Realm</h1>
+        <p>Thoughts, stories and ideas about the world and life.</p>
+    </div>
+</section>
+
+<section class="posts">
+    <div class="container">
+        <h2>Latest Posts</h2>
+        
+        <div class="posts-grid">
+            <% if (posts && posts.length > 0) { %>
+                <% posts.forEach(post => { %>
+                    <article class="post-card">
+                        <div class="post-date"><%= post.date %></div>
+                        <h3 class="post-title">
+                            <a href="/blog/<%= post.slug %>"><%= post.title %></a>
+                        </h3>
+                        <p class="post-excerpt"><%= post.excerpt %></p>
+                        <a href="/blog/<%= post.slug %>" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </article>
+                <% }); %>
+            <% } else { %>
+                <p class="no-posts">No posts found. Check back soon!</p>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<%- include('./partials/footer') %>
