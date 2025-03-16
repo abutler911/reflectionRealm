@@ -1,7 +1,7 @@
 // server.js
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -15,22 +15,24 @@ const app = express();
 const port = parseInt(process.env.PORT) || process.argv[3] || 3000;
 
 // Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdnjs.cloudflare.com"],
-      fontSrc: ["'self'", "fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:"]
-    }
-  }
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'cdnjs.cloudflare.com'],
+        styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'cdnjs.cloudflare.com'],
+        fontSrc: ["'self'", 'fonts.gstatic.com'],
+        imgSrc: ["'self'", 'data:'],
+      },
+    },
+  })
+);
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
 
@@ -41,7 +43,8 @@ app.use(morgan('dev'));
 app.use(compression());
 
 // Middleware setup
-app.use(express.static(path.join(__dirname, 'public')))
+app
+  .use(express.static(path.join(__dirname, 'public')))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .set('views', path.join(__dirname, 'views'))
@@ -59,3 +62,5 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`ReflectionRealm blog running at http://localhost:${port}`);
 });
+
+module.exports = app;
